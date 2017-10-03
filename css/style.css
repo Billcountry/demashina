@@ -1,0 +1,56 @@
+/* YOUR CUSTOM STYLES */
+
+input[type="password"]{
+    font: small-caption;
+    font-size: 16px;
+}
+
+body{
+    padding-top: 41px;
+}
+
+.loading_dock{
+    bottom: 5px;
+    border-bottom-left-radius: 12px;
+    border-top-left-radius: 12px;
+    right: 0;
+    width: auto;
+    position: fixed;
+    padding: 0 3px;
+    border: 1px solid #0275d8;
+    box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
+    font-size: 16px;
+    visibility: hidden;
+    z-index: 10000;
+}
+
+.loads{
+    border-right: 1px solid #0275d8;
+}
+
+.navbar{
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+.menu.active{
+    border-bottom: 1px solid #0275d8 !important;
+}
+
+.list-group-item{
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+.locating{
+    padding-top: 40px;
+    border: 1px solid #0275d8;
+    min-height: 200px;
+}
+
+.map{
+    border: 1px solid #0275d8;
+    background-color: #eeeeee;
+    min-height: 150px;
+    margin: 5px 0;
+}

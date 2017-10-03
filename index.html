@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>DeMashina</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <!-- Material Design Bootstrap -->
+    <link href="css/mdb.min.css" rel="stylesheet">
+    <!-- Your custom styles (optional) -->
+    <link href="css/style.css" rel="stylesheet">
+    <script src="js/location.js"></script>
+    <link href="css/material-design-iconic-font.min.css" rel="stylesheet">
+</head>
+
+<body onload="init()">
+
+    <div class="navbar navbar-toggleable-sm fixed-top bg-faded">
+        <button class="navbar-toggler navbar-toggler-right" data-toggle="collapse" data-target="#navbarCollapse"
+                aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon text-primary fa fa-bars"></span>
+        </button>
+        <a class="navbar-brand" href="#">DeMashina</a>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item menu" onclick="menu(this)" href="#user_address" data-toggle="collapse" data-target="#navbarCollapse.show">
+                    <a class="nav-link" href="#">Addresses</a>
+                </li>
+                <li class="nav-item menu" onclick="menu(this)" href="#deliveries" data-toggle="collapse" data-target="#navbarCollapse.show">
+                    <a class="nav-link" href="#">Deliveries</a>
+                </li>
+                <li class="nav-item menu" onclick="menu(this)" href="#shop" data-toggle="collapse" data-target="#navbarCollapse.show">
+                    <a class="nav-link" href="#">Shop</a>
+                </li>
+                <li class="nav-item active menu" id="menu_ac" onclick="menu(this)" href="#user_acc" data-toggle="collapse" data-target="#navbarCollapse.show">
+                    <a class="nav-link" href="#">Account</a>
+                </li>
+                <li class="nav-item menu" onclick="menu(this)" href="#about_us" data-toggle="collapse" data-target="#navbarCollapse.show">
+                    <a class="nav-link" href="#">About</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!-- Start your project here-->
+    <div class="container-fluid">
+        <div class="jumbotron" style="margin-top: 40px;" id="user_acc">
+            <div class="row" id="logged_out">
+                <form class="md-form col-12 col-lg-4" id="login" action="javascript:{ login(); }">
+                    <h3 class="animated fadeIn mb-2 fa fa-user">Login</h3>
+                    <div class="form-group">
+                        <input type="email" id="login_email"
+                               onchange="live_validation(this,'email',false,['btn_one_time','btn_login'])"
+                               onkeyup="live_validation(this,'email',true,['btn_one_time','btn_login'])" autocomplete="off" class="form-control" placeholder="Email">
+                        <div class="form-control-feedback" id="email_success"></div>
+                        <small class="form-text text-muted">The email address you used during registration.</small>
+                    </div>
+                    <div class="collapse" id="password_holder">
+                        <div>
+                            <input type="password"
+                                   onchange="live_validation(this,'password',false,['btn_login'])"
+                                   onkeyup="live_validation(this,'password',true,['btn_login'])" id="login_password" class="form-control" placeholder="Password">
+                            <div class="form-control-feedback"></div>
+                            <small class="form-text text-muted">Your active password.</small>
+                        </div>
+                    </div>
+                    <div class="collapse" id="confirm_code_holder">
+                        <div class="form-group">
+                            <input type="password"
+                                   onchange="live_validation(this,'conf_code',false,['btn_one_time'])"
+                                   onkeyup="live_validation(this,'conf_code',true,['btn_one_time'])" id="reset_pass"  class="form-control" placeholder="Confirmation Code">
+                            <div class="form-control-feedback"></div>
+                            <small class="form-text text-muted">The confirmation code sent to your email. Click resend to receive another code.
+                                <br>
+                                <a href="#">Resend</a>
+                            </small>
+                        </div>
+                    </div>
+                    <div id="login_errors"></div>
+                    <button type="button" id="btn_one_time" class="btn btn-sm btn-primary" onclick="one_time()">One Time Login</button>
+                    <button type="button" id="btn_login" class="btn btn-sm btn-primary" onclick="login()">Login</button>
+                </form>
+                <form class="md-form col-12 col-lg-8 row" id="signup" action="javascript:{register();}">
+                    <h3 class="animated fadeIn mb-2 col-12 fa fa-user-plus">Register</h3>
+                    <div class="form-group col-3">
+                        <input list="titles" type="text" class="form-control" id="reg_title" placeholder="Title">
+                        <div class="form-control-feedback"></div>
+                        <small class="form-text text-muted hidden-sm-down">Are you a Miss, mr or mrs?</small>
+                        <small class="form-text text-muted hidden-md-up">Title</small>
+                    </div>
+                    <datalist id="titles">
+                        <option value="Mr">
+                        <option value="Mrs">
+                        <option value="Prof">
+                        <option value="Dr">
+                        <option value="Eng">
+                        <option value="Miss">
+                        <option value="Rev">
+                        <option value="Hon">
+                    </datalist>
+
+                    <div class="form-group col-9">
+                        <input type="text"
+                               onchange="live_validation(this,'name',false,['btn_reg'])"
+                               onkeyup="live_validation(this,'name',true,['btn_reg'])" id="reg_l_name" class="form-control" placeholder="Last Name">
+                        <div class="form-control-feedback"></div>
+                        <small class="form-text text-muted">* Your last name.</small>
+                    </div>
+                    <div class="form-group col-12 col-md-6">
+                        <input type="text"
+                               onchange="live_validation(this,'name',false,['btn_reg'])"
+                               onkeyup="live_validation(this,'name',true,['btn_reg'])" id="reg_f_name" class="form-control" placeholder="First Name">
+                        <div class="form-control-feedback"></div>
+                        <small class="form-text text-muted">* Your first name.</small>
+                    </div>
+                    <div class="form-group col-12 col-md-6">
+                        <input type="text"
+                               onchange="live_validation(this,'name',false,['btn_reg'])"
+                               onkeyup="live_validation(this,'name',true,['btn_reg'])" id="reg_m_name" class="form-control" placeholder="Middle Name">
+                        <div class="form-control-feedback"></div>
+                        <small class="form-text text-muted">Your middle name.</small>
+                    </div>
+                    <div class="form-group col-12 col-md-6">
+                        <input type="text"
+                               onchange="live_validation(this,'alphanum',false,['btn_reg'])"
+                               onkeyup="live_validation(this,'alphanum',true,['btn_reg'])" id="reg_u_name" class="form-control" placeholder="User Name">
+                        <div class="form-control-feedback"></div>
+                        <small class="form-text text-muted">* This is the name shown publicly.</small>
+                    </div>
+                    <div class="form-group col-12 col-md-6">
+                        <input type="text"
+                               onchange="live_validation(this,'phone',false,['btn_reg'])"
+                               onkeyup="live_validation(this,'phone',true,['btn_reg'])" id="reg_phone" class="form-control" placeholder="Your Phone Number">
+                        <div class="form-control-feedback"></div>
+                        <small class="form-text text-muted">* Your current phone number.</small>
+                    </div>
+                    <div class="form-group col-12">
+                        <input type="email"
+                               onchange="live_validation(this,'email',false,['btn_reg'])"
+                               onkeyup="live_validation(this,'email',true,['btn_reg'])" id="reg_email" class="form-control" placeholder="Your Email Address">
+                        <div class="form-control-feedback"></div>
+                        <small class="form-text text-muted">* Your current email address.</small>
+                    </div>
+                    <div class="col-12 col-sm-6 form-group">
+                        <input type="date"
+                               onchange="live_validation(this,'date',false,['btn_reg'])"
+                               onkeyup="live_validation(this,'date',true,['btn_reg'])" id="reg_dob" class="form-control" placeholder="mm/dd/yyyy">
+                        <div class="form-control-feedback"></div>
+                        <small class="form-text text-muted">* Date of Birth.</small>
+                    </div>
+                    <div class="col-12" id="reg_errors">
+
+                    </div>
+                    <div class="col-12">
+                        <button type="submit" class="btn btn-sm btn-primary float-right" id="btn_reg" onclick="">Register</button>
+                    </div>
+                </form>
+
+            </div>
+            <div class="row d-none" id="logged_in">
+                <h3>Welcome Billcountry</h3>
+            </div>
+        </div>
+
+        <div class="jumbotron" id="user_address">
+            <div class="">
+                <button class="btn btn-sm btn-outline-primary" data-toggle="collapse" data-target="#new_address_collapse" aria-expanded="false" aria-controls="new_address_collapse">New Address</button>
+                <button class="btn btn-sm btn-outline-primary" data-toggle="collapse" data-target="#request_address_collapse" aria-expanded="false" aria-controls="request_address_collapse">Request Address</button>
+            </div>
+            <div class="collapse" id="new_address_collapse">
+                <div class="row">
+                    <form class="col-12 col-md-6">
+                        <div class="text-center justify-content-center locating" id="first_loc">
+                            <br>
+                            <span id="location_error"></span>
+                            <button class="btn btn-primary btn-sm" type="button" onclick="perform_address_location(this)">
+                                Locate
+                            </button>
+                        </div>
+                    </form>
+                    <form class="col-12 col-md-6">
+                        <input id="new_loc_name" type="text" class="form-control" placeholder="Name: e.g. Office Of The President Harambee Avenue">
+                        <textarea id="new_loc_desc" class="md-textarea" placeholder="Description: Anything more that you might have to say about the location is appreciated"></textarea>
+                        <a href="#?help" data-toggle="tooltip" data-placement="top" title="
+Move the map till the center of the map is on your location
+This operation will use your devices built-in location capabilities to get your exact location.
+Your new address will be confirmed on your first delivery.
+We recommend you use a mobile device or any other device with a GPS reciever.
+If this process fails, you can submit the details manually, our agents will assign and verify your location once near the described location or on your first delivery.
+                        " class="fa fa-question-circle"></a>
+                        <button type="button" onclick="reset_locator(this.parentNode)" class="btn btn-primary btn-sm float-right">Reset</button>
+                        <button type="button" class="btn btn-primary btn-sm float-right">Continue</button>
+                    </form>
+                </div>
+            </div>
+            <div class="collapse" id="request_address_collapse">
+                <div class="row">
+                    <form class="form-sm col-12 col-md-6">
+                        <input class="form-control form-control-sm" type="email" placeholder="User email address">
+                        <textarea class="md-textarea" rows="2" placeholder="A courtesy message..."></textarea>
+                        <button class="btn btn-sm btn-primary float-right">Send Request</button>
+                    </form>
+                    <p class="col-12 col-md-6 text-justify">
+                        Use this function only if you need to get an address from a friend, colleague e.t.c.
+                        If the email belongs to a member of this website, they will receive your request and can give you access to one or more of their registered
+                        addresses for shipping or visiting.
+                        If the person is not a member of this website, they will receive an email with your request.
+                        They will also have the option to register with us and share their addresses with you.<br>
+                        <i>Your email address will also be visible to the user you requested for address.</i>
+                    </p>
+                </div>
+            </div>
+            <ul class="nav nav-tabs">
+               <li class="nav-item">
+                    <a class="nav-link active" data-toggle="tab" href="#own_address" role="tab" aria-controls="own_address">My Addresses</a>
+               </li>
+               <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#shared_address" role="tab" aria-controls="shared_address">Shared Addresses</a>
+               </li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane active" id="own_address">
+                    <ul class="list-group-flush">
+                        <li class="row list-group-item">
+                            <div class="col-12 col-sm-6 col-md-5 col-lg-4 map text-center">
+                                [Map representation]
+                            </div>
+                            <div class="col-12 col-sm-6 col-md-7 col-lg-8">
+                                <a href="#?loc_id=1"><h3>Address Name</h3></a>
+                                <p>Address Description</p>
+                                <span class="small">Coordinates(Longitude, Latitude): (<span class="text-muted">72.354, 78.90</span>)</span>
+                            </div>
+                        </li>
+                        <li class="row list-group-item">
+                            <div class="col-12 col-sm-6 col-md-5 col-lg-4 map text-center">
+                                [Map representation]
+                            </div>
+                            <div class="col-12 col-sm-6 col-md-7 col-lg-8">
+                                <a href="#?loc_id=1"><h3>Address Name</h3></a>
+                                <p>Address Description</p>
+                                <span class="small">Coordinates(Longitude, Latitude): (<span class="text-muted">72.354, 78.90</span>)</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="tab-pane" id="shared_address">
+                    <ul class="list-group-flush">
+                        <li class="row list-group-item">
+                            <div class="col-12 col-sm-6 col-md-5 col-lg-4 map text-center">
+                                [Map representation]
+                            </div>
+                            <div class="col-12 col-sm-6 col-md-7 col-lg-8">
+                                <a href="#?loc_id=1"><h3>Address Name</h3></a>
+                                <p>Address Description</p>
+                                <span class="small">Coordinates(Longitude, Latitude): (<span class="text-muted">72.354, 78.90</span>)</span><br>
+                                <span class="small">Shared by: @user(<span class="text-muted">sharer@email.com</span>)</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="jumbotron row" id="about_us">
+            <div class="col-12 col-sm-6 col-md-4">
+                <h4>Who we are</h4>
+                <p>
+                    A summary description of who we are and what we do.
+                </p>
+            </div>
+            <div class="col-12 col-sm-6 col-md-4">
+                <h4>What we've done</h4>
+                <p>
+                    A summary of our accomplishments
+                </p>
+            </div>
+            <div class="col-12 col-sm-6 col-md-4">
+                <h4>What the future holds</h4>
+                <p>
+                    Our vision, our mission bra bra bra
+                </p>
+            </div>
+            <div class="col-12">
+                <h4>Those who makes us who we are.</h4>
+                <p>
+                    Small profiles of developers, marketers, incubators
+                </p>
+            </div>
+        </div>
+
+        <div class="jumbotron" id="deliveries">
+
+        </div>
+        <div class="jumbotron" id="shop">
+
+        </div>
+    </div>
+    <!-- /Start your project here-->
+    <footer class="bg-faded footer">
+        <div class="container row justify-content-lg-around justify-content-md-around w-100"
+             style="padding-top: 10px; padding-left: 10px;">
+            <div class="col-12 col-lg-4 col-md-4 col-sm-6" style="">
+                <ul class="list-group-flush">
+                    <li class="list-group-item-heading">About</li>
+                    <li class="list-group-item"><a class="text-primary">About Us</a></li>
+                    <li class="list-group-item"><a class="text-primary">&copy; Copyright</a></li>
+                    <li class="list-group-item"><a class="text-primary" target="_blank">Privacy Statement</a></li>
+                    <li class="list-group-item"><a class="text-primary">Terms and Conditions</a></li>
+                    <li class="list-group-item"><a class="text-primary">Partners</a></li>
+                </ul>
+            </div>
+            <div class="col-12 col-lg-4 col-md-4 col-sm-6" style="border-left: 1px solid #dddddd;">
+                <ul class="list-group-flush">
+                    <li class="list-group-item-heading">Developers</li>
+                    <li class="list-group-item"><a class="text-primary fa-dashboard"> Dashboard</a></li>
+                    <li class="list-group-item"><a class="text-primary fa-plug"> Api</a></li>
+                    <li class="list-group-item"><a class="text-primary fa-file-text"> Documentation</a></li>
+                    <li class="list-group-item"><a class="text-primary fa-mobile"> Featured Apps</a></li>
+                    <li class="list-group-item"><a class="text-primary fa-github"> Contributors</a></li>
+                </ul>
+            </div>
+            <div class="col-12 col-lg-4 col-md-4 col-sm-6" style="border-left: 1px solid #dddddd;">
+                <ul class="list-group-flush">
+                    <li class="list-group-item-heading">Contact Us</li>
+                    <li class="list-group-item">Email: <a href="mailto:" title="" target="_blank"
+                                  class="text-primary fa fa-send">our@email.com</a></li>
+                    <li class="list-group-item">Follow: <a class="text-primary  fa fa-twitter"
+                                   href="https://twitter.com/" target="_blank">@Our_twitter</a></li>
+                    <li class="list-group-item">Call: <a href="tel:+254728824727" class="text-primary fa fa-phone">+2541-234-567-890</a></li>
+                    <li class="list-group-item">Like: <a class="text-primary fa fa-facebook">Our Facebook</a></li>
+                    <li class="list-group-item"><a class="text-primary">Contact Form</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="w-100 text-center" style="background-color: #eeeeee; padding: 3px;">&copy; DeMashina 2017</div>
+    </footer>
+
+    <div id="toast" style="display: none;width: 100%; z-index: 10000; height: auto; bottom: 30%; left: 0px; position: fixed;">
+        <table style="height: 100%; margin: auto;border-radius: 10px; background-color:	rgba(0,0,0,0.7);">
+            <tr>
+                <td valign="middle"
+                    style="padding: 10px; text-align: center;color: white; min-width: 50%;"
+                    id="message">
+
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <div class=" text-gray-dark loading_dock bg-faded " id="loader" style="visibility: hidden;">
+		<span class="material material-album animated infinite zoomIn text-primary font-weight-bold"
+              style="margin: 0; padding: 0;"></span>
+    </div>
+
+    <!-- SCRIPTS -->
+    <!-- JQuery -->
+    <script type="text/javascript" src="js/jquery-3.1.1.min.js"></script>
+    <!-- Bootstrap tooltips -->
+    <script type="text/javascript" src="js/tether.min.js"></script>
+    <!-- Bootstrap core JavaScript -->
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <!-- MDB core JavaScript -->
+    <script type="text/javascript" src="js/mdb.min.js"></script>
+
+    <!-- Google Maps -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDSvx27htHIs9FmZHgL1gPhMrDYVEqzZtE"></script>
+
+    <!-- Custom JS -->
+    <script type="text/javascript" src="js/validator.min.js"></script>
+    <script type="text/javascript" src="js/password.js"></script>
+    <script type="text/javascript" src="js/actions.js"></script>
+
+</body>
+
+</html>
